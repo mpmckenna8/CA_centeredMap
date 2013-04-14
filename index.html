@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+    <style>
+        
+        /* CSS goes here. */
+        .casubun.US { fill: black; }
+        .header {
+            width:98%;
+            text-align:center;
+            font-family: Arial;
+            margin-top:20px;
+        }
+        
+        </style>
+    <body>
+        <div class="header"><h1>California Map in an SVG element</h1></div>
+        
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="http://d3js.org/topojson.v0.min.js"></script>
+        <script>
+            
+            /* JavaScript goes here. */
+            var width = 960,
+            height = 1000;
+            
+            var projection = d3.geo.mercator()
+            .scale(2500)
+            .translate([width / 2, height / 2])
+            .center([-120,35])
+                       ;
+
+            var path = d3.geo.path()
+            .projection(projection);
+            
+            var svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+            
+            
+        
+            
+            d3.json("cali.json", function(cali) {
+                    svg.selectAll(".casubun")
+                    .data(topojson.object(cali, cali.objects.casubun).geometries)
+                    .enter().append("path")
+                    .attr("class", function(d) { return "casubun " + d.id; })
+                    .attr("d", path);
+            });
+            
+            
+            d3.select("body").transition()
+            .style("background-color", "#FB5B1F");
+            
+            svg.selectAll(".casubun")
+            .data(topojson.object(cali, cali.objects.casubun).geometries)
+            .enter().append("path")
+            .attr("class", function(d) { return "casubun " + d.id; })
+            .attr("d", path);
+            
+            
+
+            
+            
+            </script>
+
+</body>
