@@ -1,0 +1,35 @@
+To create the cali.json file downloaded a couple of shape files from Natural Earth.
+  -The Administrative boundaries for states provinces and lakes.
+  -Also the populated places point data on cities w/ significant populations.
+
+On a mac running Lion in the terminal I already have all the necessary things installed from Mike Bostocks "Let's make a
+map tutorial."
+
+
+So once I had the data in terminal I run the following:
+  
+  1.
+  ogr2ogr \
+  -f GeoJSON\
+  -where "name IN ('California')" \
+  casubun.json \
+  ne_50m_admin_1_states_provinces_lakes_shp.shp
+
+  2.
+  ogr2ogr \
+  -f GeoJSON \
+  -where "ADM1NAME = 'california'" \
+  calcities.json \
+  ne_10m_populated_places.shp
+
+  3.
+  topjson \
+  --id-property iso_a2 \
+  -p name=NAME \
+  -o cali.json \
+  casubun.json \
+  calcities.json
+
+I ran these in the termial to create my cali.json file which has point data from some of the larger CA cities in it.  I didn't make use of these points for my Giants colored CA map because I didn't have any good reason to and labeling them would have been annoying, espcially which the concentration of quite a few cities in small areas like the Bay Area.
+
+  
